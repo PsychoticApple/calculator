@@ -1,0 +1,77 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.calc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: black;
+  padding: 30px 10px;
+  border-radius: 30px;
+  margin: 10px;
+}
+
+.numDisplay {
+  background-color: rgb(80, 76, 76);
+  padding: 20px;
+  width: 300px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: right;
+}
+
+.displayValue {
+  font-size: 60px;
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+
+.touchPad {
+  display: flex;
+  width: 335px;
+  gap: 5px;
+  padding: 20px 10px;
+  border-radius: 30px;
+}
+
+.numPad {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.numPad > *,
+.symPad > * {
+  font-size: 30px;
+  width: 80px;
+  height: 80px;
+  border: 20px;
+  border-radius: 30px;
+  background-color: rgb(80, 76, 76);
+  color: white;
+}
+
+.symPad > * {
+  background-color: orange;
+  color: white;
+}
+
+.btnNum0 {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.symPad {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
