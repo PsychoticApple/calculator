@@ -11,24 +11,132 @@ function getMultiplication(multiplicand, multiplier) {
 }
 
 function getDivision(dividend, divisor) {
+  if (divisor === 0) return "lmao";
   return dividend / divisor;
 }
 
+function getPercentage(num1, num2) {
+  return (num1 * num2) / 100;
+}
+
 function getResult(num1, num2, operation) {
+  function num(number) {
+    if (typeof number === "number") {
+      if (!Number.isInteger(number)) {
+        number = number.toFixed(7);
+      }
+      if (number.toString().length > 9) {
+        number = parseInt(number).toExponential();
+      }
+    }
+
+    return number;
+  }
   switch (operation) {
     case "+":
-      return getAddition(parseInt(num1), parseInt(num2));
+      const sum = getAddition(parseInt(num1), parseInt(num2));
+      return num(sum);
     case "-":
-      return getSubtraction(parseInt(num1), parseInt(num2));
+      const difference = getSubtraction(parseInt(num1), parseInt(num2));
+      return num(difference);
     case "*":
-      return getMultiplication(parseInt(num1), parseInt(num2));
+      const product = getMultiplication(parseInt(num1), parseInt(num2));
+      return num(product);
     case "/":
-      return getDivision(parseInt(num1), parseInt(num2));
+      const quotient = getDivision(parseInt(num1), parseInt(num2));
+      return num(quotient);
+    case "%":
+      return getPercentage(parseInt(num1), parseInt(num2));
   }
 }
 
-// const num1 = prompt("What is the first number?");
-// const operation = prompt("What is the operation(+-*/)?");
-// const num2 = prompt("What is the second number?");
+function numButtonEvent(numBtn) {
+  numBtn.style.opacity = 0.5;
+  setTimeout(() => (numBtn.style.opacity = 1), 100);
 
-// console.log(getResult(num1, num2, operation));
+  const buttonValue_str = numBtn.textContent;
+
+  if (displayValue.textContent === "0") {
+    displayValue.textContent = buttonValue_str;
+    num1 = buttonValue_str;
+  } else if (operator === undefined) {
+    num1 += buttonValue_str;
+    displayValue.textContent += buttonValue_str;
+  } else if (operator === "=") {
+    displayValue.textContent = buttonValue_str;
+    num1 = buttonValue_str;
+    num2 = undefined;
+    operator = undefined;
+  } else if (num2 === undefined) {
+    num2 = buttonValue_str;
+    displayValue.textContent = buttonValue_str;
+  } else {
+    num2 += buttonValue_str;
+    displayValue.textContent += buttonValue_str;
+  }
+}
+
+function symButtonEvent(symBtn) {
+  symBtn.style.opacity = 0.5;
+  setTimeout(() => (symBtn.style.opacity = 1), 100);
+
+  if (num1 === undefined && displayValue.textContent != "ERROR!") {
+    return false;
+  } else {
+  }
+
+  switch (symBtn.textContent) {
+    case "+":
+      operator = "+";
+      break;
+    case "-":
+      operator = "-";
+      break;
+    case "*":
+      operator = "*";
+      break;
+    case "/":
+      operator = "/";
+      break;
+    case "%":
+      operator = "%";
+      break;
+    case "=":
+      if (num2 === undefined) return false;
+      result = getResult(num1, num2, operator);
+
+      displayValue.textContent = result;
+      operator = "=";
+      num1 = result;
+      num2 = undefined;
+      break;
+    case "AC":
+      displayValue.textContent = "0";
+      num1 = undefined;
+      num2 = undefined;
+      operator = undefined;
+      break;
+
+    default:
+      displayValue.textContent = "ERROR!";
+      break;
+  }
+}
+
+let num1;
+let num2;
+let operator;
+
+let result;
+
+let displayValue = document.querySelector(".displayValue");
+const numButtons = document.querySelectorAll(".numBtn");
+const symButtons = document.querySelectorAll(".symBtn");
+
+symButtons.forEach((symBtn) =>
+  symBtn.addEventListener("click", () => symButtonEvent(symBtn))
+);
+
+numButtons.forEach((numBtn) =>
+  numBtn.addEventListener("click", () => numButtonEvent(numBtn))
+);
