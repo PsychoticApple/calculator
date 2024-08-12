@@ -34,19 +34,19 @@ function getResult(num1, num2, operation) {
   }
   switch (operation) {
     case "+":
-      const sum = getAddition(parseInt(num1), parseInt(num2));
+      const sum = getAddition(Number(num1), Number(num2));
       return num(sum);
     case "-":
-      const difference = getSubtraction(parseInt(num1), parseInt(num2));
+      const difference = getSubtraction(Number(num1), Number(num2));
       return num(difference);
     case "*":
-      const product = getMultiplication(parseInt(num1), parseInt(num2));
+      const product = getMultiplication(Number(num1), Number(num2));
       return num(product);
     case "/":
-      const quotient = getDivision(parseInt(num1), parseInt(num2));
+      const quotient = getDivision(Number(num1), Number(num2));
       return num(quotient);
     case "%":
-      return getPercentage(parseInt(num1), parseInt(num2));
+      return getPercentage(Number(num1), Number(num2));
   }
 }
 
@@ -80,11 +80,6 @@ function symButtonEvent(symBtn) {
   symBtn.style.opacity = 0.5;
   setTimeout(() => (symBtn.style.opacity = 1), 100);
 
-  if (num1 === undefined && displayValue.textContent != "ERROR!") {
-    return false;
-  } else {
-  }
-
   switch (symBtn.textContent) {
     case "+":
       operator = "+";
@@ -116,7 +111,20 @@ function symButtonEvent(symBtn) {
       num2 = undefined;
       operator = undefined;
       break;
-
+    case "+/-":
+      displayValue.textContent = "ERROR";
+      break;
+    case ".":
+      if (displayValue.textContent.includes(".")) {
+        return false;
+      } else if (num2 === undefined) {
+        displayValue.textContent += ".";
+        num1 += ".";
+      } else {
+        displayValue.textContent += ".";
+        num2 += ".";
+      }
+      break;
     default:
       displayValue.textContent = "ERROR!";
       break;
@@ -126,10 +134,10 @@ function symButtonEvent(symBtn) {
 let num1;
 let num2;
 let operator;
-
 let result;
 
 let displayValue = document.querySelector(".displayValue");
+
 const numButtons = document.querySelectorAll(".numBtn");
 const symButtons = document.querySelectorAll(".symBtn");
 
